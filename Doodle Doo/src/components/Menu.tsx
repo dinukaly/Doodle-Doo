@@ -5,11 +5,13 @@ type MenuProps = {
     setBrushColor: (color: string) => void,
     setBrushWidth: (width: number) => void,
     setBrushOpacity: (opacity: number) => void,
+    setIsEraser: (isEraser: boolean) => void,
 }
 
-export default function Menu({setBrushColor, setBrushWidth, setBrushOpacity}: MenuProps) {
+export default function Menu({setBrushColor, setBrushWidth, setBrushOpacity, setIsEraser}: MenuProps) {
   const [brushWidth, setLocalBrushWidth] = useState<number>(15);
   const [brushOpacity, setLocalBrushOpacity] = useState<number>(0.5);
+  const [isEraser, setIsEraserLocal] = useState<boolean>(false);
 
   const handleBrushWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -27,12 +29,43 @@ export default function Menu({setBrushColor, setBrushWidth, setBrushOpacity}: Me
     e.target.style.setProperty('--value', `${percentage}%`);
   };
 
+  const toggleEraser = () => {
+    const newIsEraser = !isEraser;
+    setIsEraserLocal(newIsEraser);
+    setIsEraser(newIsEraser);
+  };
+
   return (
     <div className="menu">
         <div className="control-group">
+            <label className="control-label">Tool</label>
+            <div className="tool-buttons">
+                <button 
+                    className={`tool-btn ${!isEraser ? 'active' : ''}`}
+                    onClick={() => {
+                        setIsEraserLocal(false);
+                        setIsEraser(false);
+                    }}
+                >
+                    ✏️ Brush
+                </button>
+                <button 
+                    className={`tool-btn ${isEraser ? 'active' : ''}`}
+                    onClick={toggleEraser}
+                >
+                    🧹 Eraser
+                </button>
+            </div>
+        </div>
+
+        <div className="control-group">
             <label className="control-label">Brush Color</label>
             <div className="color-input-wrapper">
-                <input type="color" onChange={(e) => setBrushColor(e.target.value)}/>
+                <input 
+                    type="color" 
+                    onChange={(e) => setBrushColor(e.target.value)}
+                    disabled={isEraser}
+                />
             </div>
         </div>
 
