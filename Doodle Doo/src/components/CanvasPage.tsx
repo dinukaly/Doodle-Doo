@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Menu from "./Menu";
 
 export default function CanvasPage() {
-  const [brushColor, setBrushColor] = useState<string>("#c47979ff");
+  const [brushColor, setBrushColor] = useState<string>("#000000");
   const [brushWidth, setBrushWidth] = useState<number>(15);
   const [brushOpacity, setBrushOpacity] = useState<number>(0.5);
 
@@ -14,8 +14,13 @@ export default function CanvasPage() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if(!canvas) return;
+
     const ctx = canvas.getContext("2d");
     if(!ctx) return;
+
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    
     ctxRef.current = ctx;
   }, [brushColor, brushWidth, brushOpacity]);
 
