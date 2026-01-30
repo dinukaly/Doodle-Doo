@@ -43,6 +43,28 @@ const stopDrawing = () => {
   ctx.closePath();
 };
 
+//draw
+const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  if (!isDrawing) return;
+
+  const canvas = canvasRef.current;
+  const ctx = ctxRef.current;
+  if (!canvas || !ctx) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  ctx.strokeStyle = brushColor;
+  ctx.lineWidth = brushWidth;
+  ctx.globalAlpha = brushOpacity;
+  ctx.lineCap = "round";
+
+  ctx.lineTo(x, y);
+  ctx.stroke();
+};
+
+
   return (
     <div className="paint-container">
       <Menu
@@ -58,6 +80,7 @@ const stopDrawing = () => {
         ref={canvasRef}
         onMouseDown={startDrawing}
         onMouseUp={stopDrawing}
+        onMouseMove={draw}
          />
       </div>
     </div>
