@@ -5,6 +5,7 @@ export default function CanvasPage() {
   const [brushColor, setBrushColor] = useState<string>("#000000");
   const [brushWidth, setBrushWidth] = useState<number>(15);
   const [brushOpacity, setBrushOpacity] = useState<number>(0.5);
+  const [isEraser, setIsEraser] = useState<boolean>(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -61,9 +62,16 @@ const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  ctx.strokeStyle = brushColor;
+  if (isEraser) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.globalAlpha = 1;
+  } else {
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.strokeStyle = brushColor;
+    ctx.globalAlpha = brushOpacity;
+  }
+  
   ctx.lineWidth = brushWidth;
-  ctx.globalAlpha = brushOpacity;
   ctx.lineCap = "round";
 
   ctx.lineTo(x, y);
@@ -71,12 +79,13 @@ const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
 };
 
 
-  return (
+return (
     <div className="paint-container">
       <Menu
         setBrushColor={(color) => setBrushColor(color)}
         setBrushWidth={(width) => setBrushWidth(width)}
         setBrushOpacity={(opacity) => setBrushOpacity(opacity)}
+        setIsEraser={setIsEraser}
       />
       <div className="canvas-container">
          <canvas 
