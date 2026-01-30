@@ -19,6 +19,7 @@ export default function CanvasPage() {
     ctxRef.current = ctx;
   }, [brushColor, brushWidth, brushOpacity]);
 
+  //start drawing
 const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
   const canvas = canvasRef.current;
   const ctx = ctxRef.current;
@@ -31,6 +32,15 @@ const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
   ctx.beginPath();
   ctx.moveTo(x, y);
   setIsDrawing(true);
+};
+
+//stop drawing
+const stopDrawing = () => {
+  setIsDrawing(false);
+  const ctx = ctxRef.current;
+  if (!ctx) return;
+
+  ctx.closePath();
 };
 
   return (
@@ -47,7 +57,7 @@ const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
         height={600}
         ref={canvasRef}
         onMouseDown={startDrawing}
-
+        onMouseUp={stopDrawing}
          />
       </div>
     </div>
