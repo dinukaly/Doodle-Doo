@@ -37,6 +37,52 @@
   opacity: 0.8;
 }
 
+.tool-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.tool-btn {
+  padding: 10px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-soft);
+}
+
+.tool-btn:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.tool-btn.active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+  transform: translateY(0);
+  box-shadow: var(--shadow-medium);
+}
+
+.tool-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+input[type="color"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .color-input-wrapper {
   position: relative;
   width: 60px;
