@@ -14,14 +14,15 @@ export default function CanvasPage() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if(!canvas) return;
-
+    
     const ctx = canvas.getContext("2d");
     if(!ctx) return;
-
+    
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
-    
     ctxRef.current = ctx;
+    
+  
   }, [brushColor, brushWidth, brushOpacity]);
 
   //start drawing
@@ -78,7 +79,7 @@ const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
         setBrushOpacity={(opacity) => setBrushOpacity(opacity)}
       />
       <div className="canvas-container">
-        <canvas 
+         <canvas 
         className="canvas" 
         width={800}
         height={600}
@@ -86,6 +87,7 @@ const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
         onMouseDown={startDrawing}
         onMouseUp={stopDrawing}
         onMouseMove={draw}
+        onMouseLeave={stopDrawing}
          />
       </div>
     </div>
