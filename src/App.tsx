@@ -1,4 +1,3 @@
-import React from 'react'
 import CanvasPage from './components/CanvasPage'
 
 export default function App() {
