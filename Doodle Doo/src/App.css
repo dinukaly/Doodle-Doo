@@ -52,6 +52,18 @@
   object-fit: contain;
 }
 
+.canvas.brush {
+  cursor: crosshair;
+}
+
+.canvas.eraser {
+  cursor: grab;
+}
+
+.canvas.eraser:active {
+  cursor: grabbing;
+}
+
 .canvas:active {
   transform: scale(1);
   border-style: solid;
