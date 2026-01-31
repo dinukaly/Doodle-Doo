@@ -1,7 +1,10 @@
-
+import React from 'react'
+import CanvasPage from './components/CanvasPage'
 
 export default function App() {
   return (
-    <div>Doodle Doo</div>
+    <div className="app-container">
+      <CanvasPage />
+    </div>
   )
 }

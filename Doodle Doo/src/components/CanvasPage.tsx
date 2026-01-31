@@ -22,7 +22,6 @@ export default function CanvasPage() {
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
     ctxRef.current = ctx;
-    
   
   }, [brushColor, brushWidth, brushOpacity]);
 
@@ -103,8 +102,8 @@ return (
          <canvas 
         className={`canvas ${isEraser ? "eraser-mode" : "brush-mode"}`}
         style={{ cursor: isEraser ? 'grab' : 'crosshair' }}
-        width={800}
-        height={600}
+        width={1200}
+        height={700}
         ref={canvasRef}
         onMouseDown={startDrawing}
         onMouseUp={stopDrawing}
