@@ -26,7 +26,7 @@ export default function CanvasPage() {
   
   }, [brushColor, brushWidth, brushOpacity]);
 
-  //start drawing
+//start drawing
 const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
   const canvas = canvasRef.current;
   const ctx = ctxRef.current;
@@ -35,6 +35,11 @@ const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
   const rect = canvas.getBoundingClientRect(); // accurate position
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
+
+  // Change cursor to grabbing when eraser is active
+  if (isEraser) {
+    canvas.style.cursor = 'grabbing';
+  }
 
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -45,8 +50,15 @@ const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
 const stopDrawing = () => {
   setIsDrawing(false);
   const ctx = ctxRef.current;
-  if (!ctx) return;
+  const canvas = canvasRef.current;
+  
+  if (!ctx || !canvas) return;
 
+  // Reset cursor based on tool mode
+  if (isEraser) {
+    canvas.style.cursor = 'grab';
+  }
+  
   ctx.closePath();
 };
 
@@ -89,7 +101,8 @@ return (
       />
       <div className="canvas-container">
          <canvas 
-        className="canvas" 
+        className={`canvas ${isEraser ? "eraser-mode" : "brush-mode"}`}
+        style={{ cursor: isEraser ? 'grab' : 'crosshair' }}
         width={800}
         height={600}
         ref={canvasRef}
