@@ -33,7 +33,7 @@ A modern, feature-rich drawing application built with React, TypeScript, and Vit
 ## 📸 Application Preview
 
 <!-- TODO: Add screenshot here -->
-![alt text](image.png)
+![alt text](![alt text](image.png))
 
 
 ## 🛠️ Installation & Setup
