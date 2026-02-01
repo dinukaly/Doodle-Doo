@@ -14,103 +14,101 @@ export default function CanvasPage() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if(!canvas) return;
-    
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
-    if(!ctx) return;
-    
+    if (!ctx) return;
+
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
     ctxRef.current = ctx;
-  
   }, [brushColor, brushWidth, brushOpacity]);
 
-//start drawing
-const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-  const canvas = canvasRef.current;
-  const ctx = ctxRef.current;
-  if (!canvas || !ctx) return;
+  //start drawing
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    if (!canvas || !ctx) return;
 
-  const rect = canvas.getBoundingClientRect(); // accurate position
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+    const rect = canvas.getBoundingClientRect(); // accurate position
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-  // Change cursor to grabbing when eraser is active
-  if (isEraser) {
-    canvas.style.cursor = 'grabbing';
-  }
+    // Change cursor to grabbing when eraser is active
+    if (isEraser) {
+      canvas.style.cursor = "grabbing";
+    }
 
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-  setIsDrawing(true);
-};
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    setIsDrawing(true);
+  };
 
-//stop drawing
-const stopDrawing = () => {
-  setIsDrawing(false);
-  const ctx = ctxRef.current;
-  const canvas = canvasRef.current;
-  
-  if (!ctx || !canvas) return;
+  //stop drawing
+  const stopDrawing = () => {
+    setIsDrawing(false);
+    const ctx = ctxRef.current;
+    const canvas = canvasRef.current;
 
-  // Reset cursor based on tool mode
-  if (isEraser) {
-    canvas.style.cursor = 'grab';
-  }
-  
-  ctx.closePath();
-};
+    if (!ctx || !canvas) return;
 
-//draw
-const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-  if (!isDrawing) return;
+    // Reset cursor based on tool mode
+    if (isEraser) {
+      canvas.style.cursor = "grab";
+    }
 
-  const canvas = canvasRef.current;
-  const ctx = ctxRef.current;
-  if (!canvas || !ctx) return;
+    ctx.closePath();
+  };
 
-  const rect = canvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+  //draw
+  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
 
-  if (isEraser) {
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.globalAlpha = 1;
-  } else {
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.strokeStyle = brushColor;
-    ctx.globalAlpha = brushOpacity;
-  }
-  
-  ctx.lineWidth = brushWidth;
-  ctx.lineCap = "round";
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    if (!canvas || !ctx) return;
 
-  ctx.lineTo(x, y);
-  ctx.stroke();
-};
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
+    if (isEraser) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.globalCompositeOperation = "source-over";
+      ctx.strokeStyle = brushColor;
+      ctx.globalAlpha = brushOpacity;
+    }
 
-return (
+    ctx.lineWidth = brushWidth;
+    ctx.lineCap = "round";
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
+
+  return (
     <div className="paint-container">
       <Menu
-        setBrushColor={(color) => setBrushColor(color)}
-        setBrushWidth={(width) => setBrushWidth(width)}
-        setBrushOpacity={(opacity) => setBrushOpacity(opacity)}
+        setBrushColor={setBrushColor}
+        setBrushWidth={setBrushWidth}
+        setBrushOpacity={setBrushOpacity}
         setIsEraser={setIsEraser}
       />
       <div className="canvas-container">
-         <canvas 
-        className={`canvas ${isEraser ? "eraser-mode" : "brush-mode"}`}
-        style={{ cursor: isEraser ? 'grab' : 'crosshair' }}
-        width={1200}
-        height={700}
-        ref={canvasRef}
-        onMouseDown={startDrawing}
-        onMouseUp={stopDrawing}
-        onMouseMove={draw}
-        onMouseLeave={stopDrawing}
-         />
+        <canvas
+          className={`canvas ${isEraser ? "eraser-mode" : "brush-mode"}`}
+          style={{ cursor: isEraser ? "grab" : "crosshair" }}
+          width={1200}
+          height={700}
+          ref={canvasRef}
+          onMouseDown={startDrawing}
+          onMouseUp={stopDrawing}
+          onMouseMove={draw}
+          onMouseLeave={stopDrawing}
+        />
       </div>
     </div>
-  )
+  );
 }
