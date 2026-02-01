@@ -22,7 +22,7 @@ export default function CanvasPage() {
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
     ctxRef.current = ctx;
-  }, [brushColor, brushWidth, brushOpacity]);
+  }, []);
 
   //start drawing
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -91,6 +91,9 @@ export default function CanvasPage() {
   return (
     <div className="paint-container">
       <Menu
+        brushWidth={brushWidth}
+        brushOpacity={brushOpacity}
+        isEraser={isEraser}
         setBrushColor={setBrushColor}
         setBrushWidth={setBrushWidth}
         setBrushOpacity={setBrushOpacity}
